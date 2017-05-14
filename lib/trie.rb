@@ -28,16 +28,7 @@ class CompleteMe
       return false unless current_node.node_have?(word[char])
       current_node = current_node.node_get(word[char])
     end
-    if current_node.term == true
-      return true
-    elsif current_node.term == nil
-      return false
-    else
-      return false
-    end
-  end
-
-  def suggest(string)
+    return current_node.term
   end
 
   def count

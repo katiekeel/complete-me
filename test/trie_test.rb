@@ -1,3 +1,5 @@
+require 'simplecov'
+SimpleCov.start
 require "minitest"
 require "minitest/autorun"
 require "minitest/pride"
@@ -11,14 +13,14 @@ class CompleteMeTest < Minitest::Test
     assert_instance_of CompleteMe, completion
   end
 
-  def test_tree_root_data_is_nil
+  def test_tree_root_has_no_letter
     completion = CompleteMe.new
     assert_nil completion.root.data
   end
 
   def test_tree_can_have_a_node
     completion = CompleteMe.new
-    completion.insert("apple")
+    completion.insert("a")
     assert 1, completion.count
   end
 
@@ -46,7 +48,7 @@ class CompleteMeTest < Minitest::Test
     assert completion.have?("apple")
   end
 
-  def test_tree_does_not_have_a_word
+  def test_tree_does_not_have_a_word_we_did_not_insert
     completion = CompleteMe.new
     completion.insert("apple")
     completion.insert("application")
@@ -55,11 +57,20 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_tree_can_be_populated_with_dictionary
-    skip
     completion = CompleteMe.new
     dictionary = File.read("/usr/share/dict/words")
     completion.populate(dictionary)
     assert_equal 235886, completion.count
+  end
+
+  def test_tree_has_words_from_dictionary
+    completion = CompleteMe.new
+    dictionary = File.read("/usr/share/dict/words")
+    completion.populate(dictionary)
+    assert completion.have?("tree")
+    assert completion.have?("xylophone")
+    assert completion.have?("zebra")
+    assert completion.have?("apple")
   end
 
   def test_tree_does_not_have_word_that_does_not_exist
@@ -68,4 +79,6 @@ class CompleteMeTest < Minitest::Test
     completion.populate(dictionary)
     refute completion.have?("askldjaejifeoafj")
   end
+
+
 end

@@ -26,10 +26,9 @@ class Node
     @children.each do |child|
       if letter == child.data
         return true
-      else
-        return false
       end
     end
+    false
   end
 
   def node_get(letter)
@@ -37,10 +36,9 @@ class Node
     @children.each do |child|
       if letter == child.data
         return child
-      else
-        return false
       end
     end
+   false
   end
 
 end
