@@ -3,7 +3,7 @@ SimpleCov.start
 require "minitest"
 require "minitest/autorun"
 require "minitest/pride"
-require "./lib/trie"
+require "./lib/trie_refactor"
 require 'pry'
 
 class CompleteMeTest < Minitest::Test
@@ -75,5 +75,25 @@ class CompleteMeTest < Minitest::Test
     refute completion.have?("askldjaejifeoafj")
   end
 
+  def test_suggest_with_one_word
+    completion = CompleteMe.new
+    completion.insert("pizza")
+    assert_equal completion.suggest("piz"), ["pizza"]
+  end
 
+  def test_suggest_with_two_words
+    skip
+    completion = CompleteMe.new
+    completion.insert("pizza")
+    completion.insert("pizzeria")
+    assert_equal completion.suggest("piz"), ["pizza", "pizzeria"]
+  end
+
+  def test_suggest_with_whole_dictionary
+    skip
+    completion = CompleteMe.new
+    dictionary = File.read("/usr/share/dict/words")
+    completion.populate(dictionary)
+    assert_equal completion.suggest("piz"), ["pize", "pizza", "pizzeria", "pizzicato", "pizzle"]
+  end
 end

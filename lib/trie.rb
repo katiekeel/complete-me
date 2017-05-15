@@ -1,45 +1,58 @@
+require './lib/node_hash.rb'
+
 class CompleteMe
 
   attr_reader :word_counter
 
-   def initialize
-      @tree_root = Hash.new{ |h,k| h[k]=Hash.new(&h.default_proc) }
-      @word_counter = 0
-   end
+  attr_accessor :root
 
-   def insert(word)
-     letters = word.split("")
-     current = @tree_root
-     letters[0..-2].each do |letter|
-       current = current[letter]
-     end
-     current = current[letters.last][true]
-     @word_counter += 1
-   end
+  def initialize
+    @root = Node.new(nil)
+    @word_counter = 0
+  end
 
+  def insert(word)
+    current_node = @root
+    letters = word.split("")
+    letters.each do |letter|
+      if current_node.children.key?(letter)
+        current_node = current_node.children.dig(letter)
+      else
+      current_node = current_node.node_insert(letter)
+    end
+    end
+    current_node.term = true
+    @word_counter += 1
+  end
 
   def have?(word)
+    current_node = @root
     letters = word.split("")
-    current = @tree_root
-    letters.each do |letter|
-      current = current.fetch(letter, nil) rescue nil
+    unless current_node.children == true
+      letters.each do |letter|
+        if current_node.children.key?(letter)
+          current_node = current_node.children.dig(letter)
+        end
+      end
     end
-    result = current.fetch(true, nil) rescue nil
-    if result == {}
-      return true
-    else
-      return false
-    end
+    return current_node.term
   end
 
   def count
-   @word_counter
+    @word_counter
   end
 
   def populate(dictionary)
     dictionary.each_line do |word|
-        insert(word.strip)
+      word_array = word.split
+      word_array.each do |item|
+        insert(item.strip)
+      end
     end
+  end
+
+  def suggest(word)
+    letters = word.split("")
   end
 
 end
