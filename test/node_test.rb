@@ -46,4 +46,19 @@ class NodeTest < Minitest::Test
     assert_equal grandchild_node.data, "c"
   end
 
+  def test_node_children_exist
+    node = Node.new("a")
+    node = node.node_insert("b")
+    assert_equal node.data, "b"
+  end
+
+  def test_insert_node_returns_node
+    node = Node.new("a")
+    assert node.children.empty?
+    child_node = node.node_insert("b")
+    assert_equal child_node.data, "b"
+    assert_equal node.children.length, 1
+    refute node.children.empty?
+  end
+
 end
