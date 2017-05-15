@@ -1,10 +1,9 @@
+require 'simplecov'
+SimpleCov.start
 require "minitest"
 require "minitest/autorun"
-require "minitest/pride"
-require "./lib/node"
-require "./lib/trie"
-
-require 'pry'
+require 'minitest/pride'
+require "./lib/trie.rb"
 
 class CompleteMeTest < Minitest::Test
   attr_reader :cm
@@ -76,7 +75,6 @@ class CompleteMeTest < Minitest::Test
   end
 
   def large_word_list
-    skip
     File.read("/usr/share/dict/words")
   end
 end

@@ -1,46 +1,44 @@
-require './lib/node.rb'
-
 class CompleteMe
 
   attr_reader :word_counter
 
-  attr_accessor :root
+   def initialize
+      @tree_root = Hash.new{ |h,k| h[k]=Hash.new(&h.default_proc) }
+      @word_counter = 0
+   end
 
-  def initialize
-    @root = Node.new(nil)
-    @word_counter = 0
-  end
+   def insert(word)
+     letters = word.split("")
+     current = @tree_root
+     letters[0..-2].each do |letter|
+       current = current[letter]
+     end
+     current = current[letters.last][true]
+     @word_counter += 1
+   end
 
-  def insert(word)
-    current_node = @root
-    word = word.downcase
-    word.length.times do |char|
-      child = current_node.node_insert(word[char])
-      current_node = child
-    end
-    current_node.term = true
-    @word_counter += 1
-  end
 
   def have?(word)
-    current_node = @root
-    word.length.times do |char|
-      return false unless current_node.node_have?(word[char])
-      current_node = current_node.node_get(word[char])
+    letters = word.split("")
+    current = @tree_root
+    letters.each do |letter|
+      current = current.fetch(letter, nil) rescue nil
     end
-    return current_node.term
+    result = current.fetch(true, nil) rescue nil
+    if result == {}
+      return true
+    else
+      return false
+    end
   end
 
   def count
-    @word_counter
+   @word_counter
   end
 
   def populate(dictionary)
     dictionary.each_line do |word|
-      word_array = word.split
-      word_array.each do |item|
-        insert(item.strip)
-      end
+        insert(word.strip)
     end
   end
 

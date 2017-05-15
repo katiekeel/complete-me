@@ -3,8 +3,8 @@ SimpleCov.start
 require "minitest"
 require "minitest/autorun"
 require "minitest/pride"
-require "./lib/node"
 require "./lib/trie"
+require 'pry'
 
 class CompleteMeTest < Minitest::Test
 
@@ -13,18 +13,13 @@ class CompleteMeTest < Minitest::Test
     assert_instance_of CompleteMe, completion
   end
 
-  def test_tree_root_has_no_letter
-    completion = CompleteMe.new
-    assert_nil completion.root.data
-  end
-
-  def test_tree_can_have_a_node
+  def test_tree_can_have_a_word
     completion = CompleteMe.new
     completion.insert("a")
     assert 1, completion.count
   end
 
-  def test_tree_can_have_multiple_nodes
+  def test_tree_can_have_multiple_words
     completion = CompleteMe.new
     completion.insert("apple")
     completion.insert("bubble")
@@ -32,7 +27,7 @@ class CompleteMeTest < Minitest::Test
     assert 3, completion.count
   end
 
-  def test_tree_node_can_have_branches
+  def test_tree_words_can_have_branches
     completion = CompleteMe.new
     completion.insert("apple")
     completion.insert("application")
@@ -60,7 +55,7 @@ class CompleteMeTest < Minitest::Test
     completion = CompleteMe.new
     dictionary = File.read("/usr/share/dict/words")
     completion.populate(dictionary)
-    assert_equal 235886, completion.count
+    assert_equal completion.count, 235886
   end
 
   def test_tree_has_words_from_dictionary
