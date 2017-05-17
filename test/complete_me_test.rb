@@ -76,14 +76,12 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_suggest_with_one_word
-    skip
     completion = CompleteMe.new
     completion.insert("pizza")
     assert_equal completion.suggest("piz"), ["pizza"]
   end
 
   def test_suggest_with_two_words
-    skip
     completion = CompleteMe.new
     completion.insert("pizza")
     completion.insert("pizzeria")
@@ -91,7 +89,6 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_suggest_with_whole_dictionary
-    skip
     completion = CompleteMe.new
     dictionary = File.read("/usr/share/dict/words")
     completion.populate(dictionary)

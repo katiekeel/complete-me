@@ -2,8 +2,7 @@ require "./lib/node.rb"
 
 class CompleteMe
 
-  attr_reader :word_counter, :current_node, :letters, :suggestions_array, :suggestion_string
-
+  attr_reader :word_counter, :current_node, :letters
   attr_accessor :root
 
   def initialize
@@ -18,7 +17,8 @@ class CompleteMe
       if current_node.children.key?(letter)
         current_node = current_node.children.dig(letter)
       else
-      current_node = current_node.node_insert(letter)
+        current_node.children[letter] = Node.new(letter)
+        current_node = current_node.children[letter]
       end
     end
     current_node.term = true
@@ -28,11 +28,9 @@ class CompleteMe
   def have?(word)
     current_node = @root
     letters = word.split("")
-    unless current_node.children == true
-      letters.each do |letter|
-        if current_node.children.key?(letter)
-          current_node = current_node.children.dig(letter)
-        end
+    letters.each do |letter|
+      if current_node.children.key?(letter)
+        current_node = current_node.children.dig(letter)
       end
     end
     return current_node.term
@@ -51,6 +49,10 @@ class CompleteMe
     end
   end
 
+  def suggest(substring)
+    all_words = find_words(substring.chop, end_node_have?(substring))
+    p all_words
+  end
 
   def end_node_have?(substring)
     current_node = @root
@@ -66,14 +68,10 @@ class CompleteMe
   def find_words(substring, current_node, words = [])
     word = substring + current_node.data
     words << word if current_node.term && words.length < 5
-    current_node.children.each_value do |value|
+    current_node.children.each do |key, value|
       find_words(word, value, words)
     end
     words
   end
 
-  def suggest(substring)
-    all_words = find_words(substring.chop, end_node_have?(substring))
-    p all_words
-  end
 end
