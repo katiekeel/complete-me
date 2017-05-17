@@ -25,17 +25,6 @@ class CompleteMe
     @word_counter += 1
   end
 
-  def have?(word)
-    current_node = @root
-    letters = word.split("")
-    letters.each do |letter|
-      if current_node.children.key?(letter)
-        current_node = current_node.children.dig(letter)
-      end
-    end
-    return current_node.term
-  end
-
   def count
    @word_counter
   end

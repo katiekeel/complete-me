@@ -5,8 +5,6 @@ require "minitest/autorun"
 require "minitest/pride"
 require "./lib/node.rb"
 
-require 'pry'
-
 class NodeTest < Minitest::Test
 
   def test_node_exists

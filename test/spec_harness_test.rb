@@ -69,7 +69,7 @@ class CompleteMeTest < Minitest::Test
   end
 
   def medium_word_list
-    File.read("./test/medium.txt")
+    File.read("./data/medium.txt")
   end
 
   def large_word_list
