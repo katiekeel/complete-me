@@ -3,7 +3,7 @@ SimpleCov.start
 require "minitest"
 require "minitest/autorun"
 require "minitest/pride"
-require "./lib/trie_refactor"
+require "./lib/complete_me.rb"
 require 'pry'
 
 class CompleteMeTest < Minitest::Test
@@ -76,6 +76,7 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_suggest_with_one_word
+    skip
     completion = CompleteMe.new
     completion.insert("pizza")
     assert_equal completion.suggest("piz"), ["pizza"]

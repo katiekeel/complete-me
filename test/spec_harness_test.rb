@@ -3,7 +3,7 @@ SimpleCov.start
 require "minitest"
 require "minitest/autorun"
 require 'minitest/pride'
-require "./lib/trie.rb"
+require "./lib/complete_me.rb"
 
 class CompleteMeTest < Minitest::Test
   attr_reader :cm
@@ -31,7 +31,6 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_suggests_off_of_small_dataset
-    skip
     insert_words(["pizza", "aardvark", "zombies", "a", "xylophones"])
     assert_equal ["pizza"], cm.suggest("p")
     assert_equal ["pizza"], cm.suggest("piz")
@@ -46,20 +45,17 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_suggests_off_of_medium_dataset
-    skip
     cm.populate(medium_word_list)
     assert_equal ["williwaw", "wizardly"], cm.suggest("wi").sort
   end
 
   def test_selects_off_of_medium_dataset
-    skip
     cm.populate(medium_word_list)
     cm.select("wi", "wizardly")
     assert_equal ["wizardly", "williwaw"], cm.suggest("wi")
   end
 
   def test_works_with_large_dataset
-    skip
     cm.populate(large_word_list)
     assert_equal ["doggerel", "doggereler", "doggerelism", "doggerelist", "doggerelize", "doggerelizer"], cm.suggest("doggerel").sort
     cm.select("doggerel", "doggerelist")

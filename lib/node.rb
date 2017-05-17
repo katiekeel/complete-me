@@ -4,8 +4,8 @@ class Node
 
   attr_accessor :children, :term
 
-  def initialize(data)
-    @data = data
+  def initialize(letter)
+    @data = letter
     @children = {}
     @term = false
   end
