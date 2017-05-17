@@ -57,10 +57,8 @@ class CompleteMe
   def end_node_have?(substring)
     current_node = @root
     letters = substring.split("")
-    until current_node.data == substring[-1]
-      letters.each do |letter|
+    letters.each do |letter|
         current_node = current_node.children[letter]
-      end
     end
     current_node
   end
