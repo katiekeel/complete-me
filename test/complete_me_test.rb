@@ -95,7 +95,6 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_select_with_two_words
-    skip
     completion = CompleteMe.new
     completion.insert("pizza")
     completion.insert("pizzeria")
@@ -105,7 +104,6 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_select_with_five_words
-    skip
     completion = CompleteMe.new
     completion.insert("pizza")
     completion.insert("pizzeria")
@@ -114,19 +112,17 @@ class CompleteMeTest < Minitest::Test
     completion.insert("pizzle")
     completion.suggest("piz")
     completion.select("piz", "pizza")
-    assert_equal completion.suggest("piz"), ["pizza", "pizzeria", "pize", "pizzicato", "pizzle"]
+    assert_equal completion.suggest("piz"), ["pizza", "pizzeria", "pizzicato", "pizzle", "pize"]
   end
 
   def test_select_with_many_words
-    skip
     completion = CompleteMe.new
     dictionary = File.read("/usr/share/dict/words")
     completion.populate(dictionary)
     completion.suggest("piz")
     completion.select("piz", "pizza")
-    assert_equal completion.suggest("piz"), ["pizza", "pize", "pizza", "pizzeria", "pizzicato", "pizzle"]
+    assert_equal completion.suggest("piz"), ["pizza", "pize", "pizzeria", "pizzicato", "pizzle"]
   end
-
 
 
 end

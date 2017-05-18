@@ -72,10 +72,6 @@ class CompleteMe
     words
   end
 
-
- # This doesn't work 100% yet with all tests, but we wanted to show we've been trying.
-
-
   def select(substring, word_selected)
     current_node = @root
     letters = substring.split("")
@@ -110,8 +106,11 @@ class CompleteMe
 
   def collect_suggestions(current_node)
     used_words_array = []
+    if current_node.suggestions.empty?
+    else
     current_node.suggestions = current_node.suggestions.sort_by {|key, value| value}.reverse
     used_words_array.push(current_node.suggestions.flatten.select {|nums| nums.class == String})
+    end
     return used_words_array
   end
 
