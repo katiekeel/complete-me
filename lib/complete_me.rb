@@ -51,7 +51,7 @@ class CompleteMe
 
   def suggest(substring)
     all_words = find_words(substring.chop, end_node_have?(substring))
-    p all_words
+    p all_words.unshift(smart_suggest(substring)).flatten.compact.uniq
   end
 
   def end_node_have?(substring)
@@ -65,11 +65,54 @@ class CompleteMe
 
   def find_words(substring, current_node, words = [])
     word = substring + current_node.data
-    words << word if current_node.term && words.length < 5
+    words << word if current_node.term && words.length < 7
     current_node.children.each do |key, value|
       find_words(word, value, words)
     end
     words
+  end
+
+
+ # This doesn't work 100% yet with all tests, but we wanted to show we've been trying.
+
+
+  def select(substring, word_selected)
+    current_node = @root
+    letters = substring.split("")
+    until current_node.data == substring[-1]
+      letters.each do |letter|
+      current_node = current_node.children[letter]
+      end
+       insert_suggestions(word_selected, current_node)
+    end
+  end
+
+  def insert_suggestions(word_selected, current_node)
+    if current_node.suggestions.empty?
+      current_node.suggestions[word_selected] = 1
+    elsif current_node.suggestions.include?(word_selected)
+      current_node.suggestions[word_selected] += 1
+    else
+      current_node.suggestions[word_selected] = 1
+    end
+  end
+
+  def smart_suggest(substring)
+    current_node = @root
+    letters = substring.split("")
+    until current_node.data == substring[-1]
+      letters.each do |letter|
+      current_node = current_node.children[letter]
+      end
+      return collect_suggestions(current_node)
+    end
+  end
+
+  def collect_suggestions(current_node)
+    used_words_array = []
+    current_node.suggestions = current_node.suggestions.sort_by {|key, value| value}.reverse
+    used_words_array.push(current_node.suggestions.flatten.select {|nums| nums.class == String})
+    return used_words_array
   end
 
 end

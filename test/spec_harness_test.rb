@@ -4,6 +4,7 @@ require "minitest"
 require "minitest/autorun"
 require 'minitest/pride'
 require "./lib/complete_me.rb"
+require 'pry'
 
 class CompleteMeTest < Minitest::Test
   attr_reader :cm

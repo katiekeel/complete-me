@@ -93,4 +93,40 @@ class CompleteMeTest < Minitest::Test
     completion.populate(dictionary)
     assert_equal completion.suggest("piz"), ["pize", "pizza", "pizzeria", "pizzicato", "pizzle"]
   end
+
+  def test_select_with_two_words
+    skip
+    completion = CompleteMe.new
+    completion.insert("pizza")
+    completion.insert("pizzeria")
+    completion.suggest("piz")
+    completion.select("piz", "pizza")
+    assert_equal completion.suggest("piz"), ["pizza", "pizzeria"]
+  end
+
+  def test_select_with_five_words
+    skip
+    completion = CompleteMe.new
+    completion.insert("pizza")
+    completion.insert("pizzeria")
+    completion.insert("pize")
+    completion.insert("pizzicato")
+    completion.insert("pizzle")
+    completion.suggest("piz")
+    completion.select("piz", "pizza")
+    assert_equal completion.suggest("piz"), ["pizza", "pizzeria", "pize", "pizzicato", "pizzle"]
+  end
+
+  def test_select_with_many_words
+    skip
+    completion = CompleteMe.new
+    dictionary = File.read("/usr/share/dict/words")
+    completion.populate(dictionary)
+    completion.suggest("piz")
+    completion.select("piz", "pizza")
+    assert_equal completion.suggest("piz"), ["pizza", "pize", "pizza", "pizzeria", "pizzicato", "pizzle"]
+  end
+
+
+
 end
