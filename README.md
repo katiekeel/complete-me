@@ -6,3 +6,4 @@ The project was framed in the context of an autocomplete function, wherein a use
 
 Overall, this was probably the most difficult project I've completed so far at Turing, and also the most rewarding and informative. Learning about trees and Tries requires knowledge of several CS topics, including logarithmic complexity.
 
+Project spec [here](http://backend.turing.io/module1/projects/complete_me).
